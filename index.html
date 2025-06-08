@@ -1,37 +1,21 @@
-
-
 <!DOCTYPE html>
 <html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>App with Login, Register &amp; Beranda</title>
+  <title>Component Library - Beautiful UI Components</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
     :root {
-      --gradient-start: #6b73ff;
-      --gradient-end: #000dff;
-      --background: #ffffff;
-      --text-primary: #374151;
-      --text-secondary: #6b7280;
-      --card-background: #ffffff;
-      --card-shadow: rgba(0,0,0,0.05);
-      --input-border: #e5e7eb;
-      --input-focus: #000dff;
+      --color-bg: #ffffff;
+      --color-text-primary: #1f2937; /* Neutral dark */
+      --color-text-secondary: #6b7280; /* Neutral gray */
+      --color-gradient-start: #6b73ff;
+      --color-gradient-end: #000dff;
       --border-radius: 0.75rem;
-      --transition-speed: 0.4s;
-    }
-
-    [data-theme="dark"] {
-      --background: #121217;
-      --text-primary: #e0e0e0;
-      --text-secondary: #a1a1aa;
-      --card-background: #1e1e28;
-      --card-shadow: rgba(0,0,0,0.8);
-      --input-border: #3f3f46;
-      --input-focus: #6b73ff;
+      --box-shadow-light: rgba(0, 0, 0, 0.05);
+      --transition-speed: 0.3s;
     }
 
     *, *::before, *::after {
@@ -41,30 +25,21 @@
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: var(--background);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
-      scroll-behavior: smooth;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    button {
-      font-family: 'Poppins', sans-serif;
-      cursor: pointer;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
+    /* Sticky navbar */
     nav {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: var(--card-background);
-      box-shadow: 0 2px 8px var(--card-shadow);
-      transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      background: var(--color-bg);
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 2px 4px var(--box-shadow-light);
+      z-index: 1000;
     }
     .nav-container {
       max-width: 1200px;
@@ -75,150 +50,173 @@
       align-items: center;
       user-select: none;
     }
+
     .nav-logo {
       font-weight: 800;
-      font-size: 1.8rem;
-      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+      font-size: 1.875rem; /* 30px */
+      background: linear-gradient(90deg, var(--color-gradient-start), var(--color-gradient-end));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       cursor: default;
       user-select: none;
     }
+
     .nav-links {
       display: flex;
       gap: 2rem;
     }
-    .nav-link {
+    .nav-links a {
       font-weight: 600;
       font-size: 1rem;
-      color: var(--text-secondary);
+      color: var(--color-text-secondary);
+      text-decoration: none;
       padding: 0.25rem 0;
       position: relative;
       transition: color var(--transition-speed) ease;
-      user-select: none;
     }
-    .nav-link:hover,
-    .nav-link:focus {
-      color: var(--gradient-end);
-      outline: none;
-    }
-    .nav-link.active {
-      color: var(--gradient-end);
-      font-weight: 700;
-    }
-    .nav-link.active::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      border-radius: 3px;
-      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
-    }
-
-    .theme-toggle {
-      border: none;
-      background: transparent;
-      font-size: 1.35rem;
-      color: var(--text-secondary);
-      transition: color var(--transition-speed) ease;
-      margin-left: 1rem;
-      display: flex;
-      align-items: center;
-      user-select: none;
-    }
-    .theme-toggle:hover,
-    .theme-toggle:focus {
-      color: var(--gradient-end);
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--color-gradient-end);
       outline: none;
     }
 
-    main {
-      flex-grow: 1;
+    /* Hero section */
+    .hero {
       max-width: 900px;
-      margin: 3rem auto;
-      padding: 0 1rem 4rem;
-      min-height: 70vh;
-      /* We'll fade and slide sections */
-      position: relative;
+      margin: 6rem auto 10rem;
+      text-align: center;
+      padding: 0 1rem;
     }
-
-    section {
-      display: none;
-      opacity: 0;
-      transform: translateY(20px);
-      transition:
-        opacity var(--transition-speed) ease,
-        transform var(--transition-speed) ease;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-    }
-    section.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-      position: relative;
-    }
-
-    h1.section-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--gradient-end);
+    .hero-title {
+      font-size: 3rem; /* 48px */
+      font-weight: 800;
+      margin: 0 0 1.25rem;
+      line-height: 1.1;
+      color: var(--color-gradient-end);
       user-select: none;
     }
-    .section-subtitle {
+    .hero-subtitle {
+      font-size: 1.25rem;
       font-weight: 400;
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      color: var(--color-text-secondary);
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: #000000;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.125rem;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      transition:
+        background var(--transition-speed) ease,
+        box-shadow var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
       user-select: none;
     }
+    .hero-cta:hover,
+    .hero-cta:focus {
+      background: #222222;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      transform: scale(1.05);
+      outline: none;
+    }
 
-    form {
-      max-width: 380px;
-      margin: 0 auto;
+    /* Feature cards container */
+    .features {
+      max-width: 1200px;
+      margin: 0 auto 6rem;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    @media(min-width: 640px) {
+      .features {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .feature-card {
+      background: var(--color-bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 10px 30px var(--box-shadow-light);
+      padding: 2rem;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      background: var(--card-background);
-      padding: 2rem;
-      border-radius: var(--border-radius);
-      box-shadow: 0 10px 30px var(--card-shadow);
-      transition: background var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      gap: 1rem;
       user-select: none;
-    }
-    label {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      user-select: text;
-    }
-    input {
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      color: var(--text-primary);
-      border-radius: 0.5rem;
-      border: 1.5px solid var(--input-border);
-      background: var(--background);
       transition:
-        border-color var(--transition-speed) ease,
         box-shadow var(--transition-speed) ease,
-        background var(--transition-speed) ease;
+        transform var(--transition-speed) ease;
     }
-    input::placeholder {
-      color: var(--text-secondary);
+    .feature-card:hover,
+    .feature-card:focus-within {
+      box-shadow: 0 15px 45px rgba(0,0,0,0.12);
+      transform: translateY(-6px);
+      outline: none;
+    }
+    .feature-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-gradient-end);
+      margin: 0;
+    }
+    .feature-desc {
+      color: var(--color-text-secondary);
+      font-size: 1rem;
+      flex-grow: 1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 1rem 4rem;
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
       user-select: none;
     }
-    input:focus {
-      outline: none;
-      border-color: var(--input-focus);
-      box-shadow: 0 0 10px var(--input-focus);
-      background: var(--background);
-    }
-    button {
-      margin-top: 0.5rem;
-      padding: 0.
+  </style>
+</head>
+<body>
+  <nav role="navigation" aria-label="Main Navigation">
+    <div class="nav-container">
+      <div class="nav-logo" aria-label="Logo">ComponentLib</div>
+      <div class="nav-links">
+        <a href="beranda.html" title="Beranda">Beranda</a>
+        <a href="login.html" title="Login">Login</a>
+        <a href="register.html" title="Register">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" role="region" aria-label="Hero section">
+      <h1 class="hero-title">Build your Component Library</h1>
+      <p class="hero-subtitle">Create beautiful, reusable UI components with an elegant, easy-to-use library designed for developers.</p>
+      <a href="beranda.html" class="hero-cta" role="button">Get Started</a>
+    </section>
+
+    <section class="features" role="region" aria-label="Library features">
+      <article class="feature-card" tabindex="0">
+        <h2 class="feature-title">Elegant Design</h2>
+        <p class="feature-desc">Minimal, elegant components with subtle shadows and rounded corners, perfect for modern apps.</p>
+      </article>
+      <article class="feature-card" tabindex="0">
+        <h2 class="feature-title">Responsive & Accessible</h2>
+        <p class="feature-desc">Mobile-first and accessibility-focused for great user experience on all devices.</p>
+      </article>
+      <article class="feature-card" tabindex="0">
+        <h2 class="feature-title">Customizable</h2>
+        <p class="feature-desc">Easily change colors, typography, and layouts to fit your brand and style.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 ComponentLib. All rights reserved.
+  </footer>
+</body>
+</html>
+
